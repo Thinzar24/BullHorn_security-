@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="www.thymeleaf.org">
+<head>
+    <title>View Feed</title>
+    <th:block th:insert="base :: header"></th:block>
+</head>
+<body class="container">
+<div th:replace="base :: nav"></div>
+
+<div th:each="message : ${messages}">
+    <p>
+    <div th:text="${message.content}"/>
+    <div>
+        Posted by: <strong><span th:text="${message.sentBy}"></span></strong> on <span
+            th:text="${#dates.format(message.postedDate, 'dd MMM yyyy')}"></span>
+    </div>
+    <div>
+        <a th:href="@{/update/{id}(id=${message.id})}">Update</a> -
+        <a th:href="@{/detail/{id}(id=${message.id})}">View</a>
+    </div>
+    </p>
+</div>
+</body>
+</html>
