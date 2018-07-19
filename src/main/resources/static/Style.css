@@ -1,0 +1,19 @@
+body {
+    margin: 30px auto 30px auto;
+    font-family: Verdana;
+}
+
+div.jumbotron {
+    background-color: #C8E0F2;
+}
+
+h1 {
+    font-family: Verdana;
+    font-weight: bold;
+}
+
+a.nav-link {
+    color: #EA6A4E;
+    font-weight: bold;
+    font-variant: small-caps;
+}

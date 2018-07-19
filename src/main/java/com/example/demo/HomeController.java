@@ -5,49 +5,100 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
 @Controller
 public class HomeController {
     @Autowired
+    private UserService userService;
+
+    @Autowired
     MessageRepository messageRepository;
 
     @RequestMapping("/")
-    public String listMessages(Model model) {
+    public String index(Model model){
         model.addAttribute("messages", messageRepository.findAll());
         return "list";
     }
 
+    @RequestMapping("/login")
+    public String login(){
+        return "login";
+    }
+
+//
+//    @RequestMapping("/base")
+//    public String baseStyle(){
+//        return "base";
+//    }
+
+
+
+
+
+//    For Bullhorn
     @GetMapping("/add")
-    public String messageForm(Model model) {
-        //model.addAttribute("page-title", "Add New Message");
+    public String messageForm(Model model){
         model.addAttribute("message", new Message());
-        return "messageform";
+        return "msgform";
     }
 
     @PostMapping("/process")
-    public String processForm(@Valid Message message, BindingResult result) {
-        if(result.hasErrors()) {
-            return "messageform";
+    public String processForm(@Valid Message message, BindingResult result){
+        if(result.hasErrors()){
+            return "msgform";
         }
+
         messageRepository.save(message);
         return "redirect:/";
     }
 
     @RequestMapping("/detail/{id}")
-    public String showCourse(@PathVariable("id") long id, Model model) {
+    public String showMsg(@PathVariable("id") long id, Model model) {
         model.addAttribute("message", messageRepository.findById(id).get());
         return "show";
     }
 
     @RequestMapping("/update/{id}")
-    public String updateCourse(@PathVariable("id") long id, Model model) {
-        model.addAttribute("message", messageRepository.findById(id));
-        return "messageform";
+    public String updateMsg(@PathVariable("id") long id, Model model){
+        model.addAttribute("message", messageRepository.findById(id).get());
+        return "msgform";
+    }
+// End Bull horn
+
+
+
+
+
+
+//    @RequestMapping("/secure")
+//    public String secure(){
+//        return "listmsg";
+//    }
+
+
+
+
+    @RequestMapping(value = "/register", method = RequestMethod.GET)
+    public String showRegistrationPage(Model model){
+        model.addAttribute("user", new User());
+        return "registration";
+    }
+
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public String processRegistrationPage(
+            @Valid @ModelAttribute("user") User user,
+            BindingResult result,
+            Model model){
+        model.addAttribute("user", user);
+        if(result.hasErrors()){
+            return "registration";
+        }else{
+            userService.saveUser(user);
+            model.addAttribute("message", "User Account Successfully Created");
+        }
+        return "redirect:/";
     }
 }

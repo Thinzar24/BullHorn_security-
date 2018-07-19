@@ -7,23 +7,25 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.Date;
 
 @Entity
 public class Message {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
     @NotNull
-    @Size(min=4)
+    @Size(min = 10)
     private String content;
 
     @NotNull
-    @Size(min=4)
-    private String sentBy;
+    @Size(min = 1)
+    private String datePosted;
 
-    private Date postedDate;
+    @NotNull
+    @Size(min = 1)
+    private String setBy;
 
     public long getId() {
         return id;
@@ -41,21 +43,20 @@ public class Message {
         this.content = content;
     }
 
-    public String getSentBy() {
-        return sentBy;
+    public String getDatePosted() {
+        return datePosted;
     }
 
-    public void setSentBy(String sentBy) {
-        this.sentBy = sentBy;
+    public void setDatePosted(String datePosted) {
+        this.datePosted = datePosted;
     }
 
-    public Date getPostedDate() {
-        return postedDate;
+    public String getSetBy() {
+        return setBy;
     }
 
-    public void setPostedDate(Date postedDate) {
-        this.postedDate = postedDate;
+    public void setSetBy(String setBy) {
+        this.setBy = setBy;
     }
-
 }
 
